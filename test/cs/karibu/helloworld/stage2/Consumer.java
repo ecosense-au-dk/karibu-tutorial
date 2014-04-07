@@ -20,6 +20,7 @@ import org.slf4j.*;
 
 import cs.karibu.backend.*;
 import cs.karibu.backend.rabbitmq.*;
+import cs.karibu.helloworld.testdoubles.NullStatisticsHandler;
 import cs.karibu.producer.rabbitmq.RabbitExchangeConfiguration;
  
 /** Manual test case - Consume Hello World data being 
@@ -64,6 +65,10 @@ public class Consumer {
         new ExampleExchangeConfiguration(rabbitMQServerName); 
     RabbitQueueConfiguration rqc =  
         new ExampleStorageQueueConfiguration(); 
+    
+    // No need for any statistics collection so we just
+    // use a 'null object' handler
+    StatisticHandler statisticsHandler = new NullStatisticsHandler();
  
     // Configure and create the MessageReceiverEndpoint, 
     // using a RabbitMQ as polling consumer 
@@ -76,6 +81,7 @@ public class Consumer {
         processingStrategy(database).
         deserializerFactory(factory).
         logger(log).
+        statisticsHandler(statisticsHandler).
         build();
         
     // Finally, spawn the thread ... 
