@@ -1,0 +1,114 @@
+<!-- 
+     EcoSense Karibu Hello World Tutorial
+
+     Read the tutorial for explanation.
+
+     Author: Henrik Baerbak Christensen, CS at Aarhus University
+-->
+<project name="tutproaæ" default="help" basedir="."
+	 xmlns:ivy="antlib:org.apache.ivy.ant">
+
+  <property name="lib.dir" value="lib" />
+  <property name="build.dir" value="build" />
+  <property name="src.dir" value="src" />  
+  <property name="test.dir" value="test" />
+
+  <!-- paths used for compilation and run  -->
+  <path id="lib.path.id">
+    <fileset dir="${lib.dir}" />
+  </path>
+  <path id="run.path.id">
+    <path refid="lib.path.id" />
+    <path location="${build.dir}" />
+  </path>
+
+  <target name="help">
+    <echo>
+Karibu Tutorial
+
+  *** Please read the 'helloworld' tutorial first ***
+
+  Targets 
+    clean:     Removes all bytecode.
+
+  Hello World Tutorial:
+   Stage 1:
+    test:        Run Level 0 learning tests (along with all other tests)
+
+   Stage 2: (requires a running MQ machine, defaults to localhost)
+    cons:        Run a Level 1 consumer (MQ -> shell output)
+                    Hit ctrl-C to terminate
+    prod:        Run a Level 1 producer (generates example data -> MQ)
+                    Will terminate after 3 uploads.
+
+    *** Run the consumer before the producer ***
+    	
+      To use machine with IP x.x.x.x as RabbitMQ, use
+    	   -Dmq.ip=x.x.x.x for the above two targets.
+    </echo>
+  </target>
+  
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+    <delete dir="${lib.dir}"/>
+  </target>
+  
+  <target name="prepare">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${lib.dir}"/>
+  </target>
+
+  <!-- Ivy tasks -->
+  <target name="resolve" 
+	  description="--> retreive dependencies with ivy">
+    <ivy:retrieve/>
+  </target>    
+  <target name="report" depends="resolve" 
+	  description="--> generates a report of dependencies">
+    <ivy:report todir="${build.dir}"/>
+  </target>
+
+  <!-- compilation tasks -->
+  <target name="build-test" depends="prepare,resolve">
+    <javac srcdir="${test.dir}"
+	   destdir="${build.dir}"
+	   debug="on" 
+	   classpathref="lib.path.id" 
+	   includeAntRuntime="false">
+    </javac>
+  </target>
+
+  <!-- Stage 1 -->
+  <target name="test" depends="build-test"
+	  description="--> Execute the stage 1 test cases">
+    <junit printsummary="yes" fork="yes" haltonfailure="yes">
+      <formatter type="plain"/>
+      <test name="cs.karibu.helloworld.stage1.TestRoundtrip"/>
+      <classpath>
+	<path refid="run.path.id"/>
+      </classpath>
+    </junit>
+  </target>
+
+  <!-- Stage 2 -->
+  
+  <!-- Define the IP of the machine with a running RabbitMQ -->
+  <property name="mq.ip" value="localhost"/>
+
+  <target name="prod" depends="build-test"
+	  description="---> Stage 2 - produce three items of data">
+    <java classpathref="run.path.id" 
+	  classname="cs.karibu.helloworld.stage2.Producer">
+      <arg value="${mq.ip}"/>
+    </java>
+  </target>
+  <target name="cons" depends="build-test"
+	  description="--> Stage 2 - consume items and output to shell">
+    <java classpathref="run.path.id" 
+	  classname="cs.karibu.helloworld.stage2.Consumer">
+      <arg value="${mq.ip}"/>
+    </java>
+  </target>
+
+</project>
+

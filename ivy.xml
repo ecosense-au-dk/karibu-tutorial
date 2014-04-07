@@ -1,0 +1,33 @@
+<ivy-module version="2.0">
+  <info organisation="karibu" 
+	module="tutorial" 
+	revision="1.0.0"
+	status="release">
+    <license name="Apache" url="http://www.apache.org/licenses/LICENSE-2.0.txt" />
+    <ivyauthor name="Henrik Baerbak Christensen" />
+    <description>
+      The Karibu system tutorial.
+    </description>
+  </info>
+  
+  <configurations>
+    <conf name="default" visibility="public" description="runtime dependencies and master artifact can be used with this conf" extends="runtime,master"/>
+    <conf name="master" visibility="public" description="contains only the artifact published by this module itself, with no transitive dependencies"/>
+    <conf name="compile" visibility="public" description="this is the default scope, used if none is specified. Compile dependencies are available in all classpaths."/>
+    <conf name="runtime" visibility="public" description="this scope indicates that the dependency is not required for compilation, but is for execution. It is in the runtime and test classpaths, but not the compile classpath." extends="compile"/>
+    <conf name="sources" visibility="public" description="this configuration contains the source artifact of this module, if any."/>
+    <conf name="javadoc" visibility="public" description="this configuration contains the javadoc artifact of this module, if any."/>
+  </configurations>
+  
+  <dependencies>
+    <dependency org="karibu" name="karibu-producer" 
+		rev="2.0.0"/>
+    <dependency org="karibu" name="karibu-consumer" 
+		rev="2.0.0"/>
+    
+    <dependency org="junit" name="junit" rev="4.11" />
+    
+    <dependency org="org.slf4j" name="slf4j-simple" rev="1.7.5" />
+    
+  </dependencies>
+</ivy-module>
