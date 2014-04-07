@@ -1,7 +1,7 @@
-Karibu Hello World: Getting data into the EcoSense backtier
+Karibu Tutorial
 =======
 
-Version 3 / August 2013.
+Version 4 / April 2014.
 
 This document summarizes the programming process involved in developing the
 client side software, and the backend plug-in, to allow clients
@@ -9,36 +9,38 @@ to send data to the EcoSense backend for storage. It is based upon
 the developed framework called *Karibu*. (Karibu is Swahili for "welcome").
 
 
-*NOTE*: The Karibu system is stabilizing but minor mistakes in this
-document is to be expected...
+*NOTE*: The Karibu system is stable but the current tutorial is still
+in development.
+
+**Henrik Baerbak Christensen, Aarhus University**
 
 Overview of the process
 ----
 
 Below I will describe a *staged testing process* which strives to
 emphasize agile software development **fast development of reliable
-software** . The staging involves
-three stages:
+software** . The staging involves several stages:
 
-1. Make your core client side and backend side software work in a
+0. Make your core client side and backend side software work in a
 *single node environment* (validates your code in a non-distributed
 environment.) Karibu is designed to allow you to build the entire
 client side user interface and domain logic in this environment thus
-speeding up development significantly!
+speeding up development significantly.
 
-2. Make your configuration code work in a *distributed test
+1. Make your configuration code work in a *distributed test
 environment* (validates most of the RabbitMQ and Mongo parameters and
 configurations as well as tests your client in a real distributed
 environment but without fear of interferring with the full operational
 system.)
 
-3. Deploy your backend code on the *pre-production CS system*. This
+2. Deploy your backend code on the *pre-production CS system*. This
 allows realistic testing is a safe environment that never-the-less
 is similar to the operational environment.
 
-4. Final deployment in the operational system. The 
-CS EcoSense administrator (Henrik Bærbak)
-must be involved of the final deployment.
+3. Final deployment in the operational system. 
+
+Only level 0 and 1 are described currently. More information regarding
+level 2 and 3 will be provided later, or contact the author.
 
 
 
@@ -85,35 +87,17 @@ database `ecosense` in the collection named by the producer code.)
 Download and Tool chain
 =======================
 
-To compile and execute, you need *Java JDK*, *Apache Ant* and *Apache Ivy*
-for dependency management. You also need network access to download
-modules that Karibu depends upon.
+To compile and execute, you need at least the following tools in
+minimum versions: *Java JDK 1.7*, *Apache Ant 1.8* and *Apache Ivy
+2.3* for dependency management. You also need network access to
+download the two Karibu modules (producer and consumer) as well as
+modules that Karibu depends upon. Please review the ivy.xml file.
 
-If you just want to use Karibu, you can just configure Ivy to fetch
-the relevant Karibu modules from our team repository server:
-`twiga.cs.au.dk`.
-
-In the 'dependencies' section of your ivy.xml, 
-   ask for the karibu-producer module:
-
-    <dependency org="ecosense" name="karibu-producer"
-    rev="latest.integration" />
-
-and ensure that the twiga server is in the chain of ivy resolvers:
-
-  <property name="ivy.shared.default.root"             
-	    value="http://twiga.cs.au.dk:8081/artifactory/libs-release-local" 
-	    override="false"/>
+The source code at GitHub will become available as soon as our
+TechTrans administration allows us.
 
 
-Alternatively, you can get full code and development access: Use 'git'
-to get access to Karibu, using the following link:
-
-https://github.com/ecosense-au-dk/Karibu
-
-(Require that you are registered Ecosense user.)
-
-Stage 1: Developing in the single-node environment
+Level 0: Developing in the single-node environment
 ==================================
 
 **This is the recommended mode for developing the GUI and application
@@ -132,7 +116,11 @@ World" data model. Please refer to the JUnit example code in
 which contains all the code shown below.
 
 The JUnit test cases are executed (along with other test cases) by
-issuing 'ant test' in the `karibu-tutorial` subfolder.
+issuing 'ant test' in the `karibu-tutorial` folder.
+
+Note: For "historical reasons" the level 0 testing is located in a subfolder
+named "stage1" in the test folder.
+
 
 Step 1: Serialization and deserialization step
 -------------
@@ -154,6 +142,11 @@ normal test-driven development and JUnit:
   array to the MongoDB object that should be stored.
 
 ### Example
+
+For this purpose I will develop using a very simple domain object
+(rather irrelevant for a Ubicom audience, but will do for the
+tutorial), namely one that captures a person and his/her favorite
+computer game.
 
 An example client side domain class,
 `ExampleDomainClass`, is defined as
@@ -177,9 +170,12 @@ An example client side domain class,
       }
     }
 
-Next we settle on a binary format that codes the two string
-parameters as a sequence of bytes, with a `|` as separator between
-the two strings.
+As our transport layer will ultimately require any object to send in
+binary format, we must settle on a serialization and deserialization
+scheme. JSON, XML, or Protocol Buffers are likely candidates for
+production. Here, however I will do it 'the raw way' and settle on a
+binary format that codes the two string parameters as a sequence of
+bytes, with a `|` as separator between the two strings.
 
 The code below illustrates the (resulting) test case that was used to
 drive the implementation of `Serializer` and `Deserializer`
@@ -226,17 +222,16 @@ The resulting JUnit test case becomes:
   
 You may use any technique to serialize and deserialize, like using
 open source JSON modules, Google protocol buffers, or hand code it all
-by yourself. The `karibu-test` contains test cases that uses a JSON
-serializer 'org.codehaus.jackson' for inspiration.
+by yourself. 
     
 Assuming that you have a decent test suite that validates that your
 serialization and deserialization works ok, you can move on to the
 next step.
 
-* NOTE: MongoDB cannot store objects whose key fields contain '.'
-  (dots). Ensure that your serialization does not produce
+* NOTE: **MongoDB cannot store objects whose key fields contain '.'
+  (dots).** Ensure that your serialization does not produce
   such. (Beware for automatic serialization of inner objects as they
-  likely will use dot-notation.) *
+  likely will use dot-notation.) 
 
 Step 2. Client side Karibu objects
 -------------
@@ -248,7 +243,7 @@ In this section we avoid the RabbitMQ connector, and instead use
 Karibu's test implementations that allow a full upload to be
 *simulated* in a single process in-memory setup. This is designed to
 allow speedy development of the client side without having to setup a
-distributed environment. The Stage 2 section later in the document
+distributed environment. The Level 1 section later in the document
 will demonstrate Karibu's RabbitMQ implementation meant for production
 code.
 
@@ -258,7 +253,7 @@ important differences as shown in the component connector view below.
 ![Component-Connector  view for test](resource/cc-view-test.gif)
 
 Basically, you instantiate a `StandardClientRequestHandler` from the
-Karibu framework, and use itsx `send` method to upload data to the
+Karibu framework, and use its `send` method to upload data to the
 backend. This default class provides retry-and-failover code which
 means it will repeatedly attempt upload in case the connection has
 been lost, and in the full production environment it will also
@@ -269,7 +264,7 @@ POSA volume 4. In Karibu, you configure the client request handler
 with four parameters
   
   1. The domain class type (as a generic type)
-  2. The project code (explained below)
+  2. The producer code (explained below)
   3. The channel connector to use (the transport medium, explained below)
   4. The serializer to use (the one we defined in the previous step).
 
@@ -283,22 +278,22 @@ from the example looks like this:
             EXAMPLE_PRODUCER_CODE,  
             connector, new ExampleSerializer()); 
 
-Below we dig into details of the project code and the channel
+Below we dig into details of the producer code and the channel
 connector.
  
-### The project code semantics
+### The producer code semantics
     
 Message queue systems do not retain information about the producer of
 a message. Thus for the backend to know how to deserialize the payload
 and to know which collection to store the object in, you have to
 identify yourself as producer of the data. This is done using the
-*project code*: the producer's unique ID.
+*producer code*: the producer's unique ID.
 
-In Karibu the project code is exactly 8 characters (UTF-8) that
+In Karibu the producer code is exactly 8 characters (UTF-8) that
 uniquely must identify the producer as well as what version of the
 data is sent.
 
-The format is defined as 
+The format used in EcoSense is defined as 
 
     // Karibu uses a 8 character (UTF-8) code to 
     // identify the producer of data, called 
@@ -312,6 +307,9 @@ The format is defined as
 Example: `GFKRE003` defines the producer of data as the grundfos dorm,
 the data type is 'reading', and finally the version of the data sent
 as 3.
+
+However, a deployment may define its own scheme - the only requirement
+of Karibu is that the code is exactly 8 bytes long.
 
 ### The channel connector
 
@@ -333,16 +331,16 @@ calls is provided by Karibu. From the test code:
     // instead use the RabbitMessageProducer connector 
     connector = new InVMInterProcessConnector(srh); 
  
-(The `srh` object is a stub for the backend, and explained below
-in the backend section.)
+(The `srh` object is the request handler on the server side, and
+explained below in the backend section.)
 
 ### Sending the data object
 
 Given a correctly configured client request handler, the actual
 sending is simple - just call the `send` method and supply the object
 itself, as well as a *topic*. The topic defines 'what we are talking
-about' and must follow some rules for the backend to interpret it
-correctly, see below.
+about' and must follow some rules for the Karibu daemon to interpret
+it correctly, see below.
 
 Thus the code is:
 
@@ -370,8 +368,8 @@ as outlined in the JavaDoc for `send`.
     * B = type of the data; example "reading".
     * C = type of backend processing; example "store".
 
-**Note: The production backend at CS is configured to only store
-objects sent with "store" as the C part of the topic** 
+**Note: The Karibu daemons are configured to only store objects sent
+with "store" as the C part of the topic**
 
 Step 3. Backend Karibu objects
 -------------
@@ -387,7 +385,7 @@ The backend requires three things to be set up:
   objects in.
   * The `DeserializerFactory` which is a sort of Abstract Factory 
   which returns a proper Deserializer object based upon the provided
-  project code 
+  producer code 
   * The `ServerRequestHandler` which is the backend match for the
   ClientRequestHandler (again a POSA Vol. 4 pattern).
 
@@ -395,9 +393,10 @@ A standard implementation `StandardServerRequestHandler` is provided
 by Karibu which is just configured by the storage and the deserializer
 factory.
     
-For the storage we use a fake object that just remembers the last
-stored object; and as our test case only knows a single project code
-there is little need for a fancy factory of deserializers:
+For the storage we use a Fake Object [Meszaros] that just
+remembers the last stored object; and as our test case only knows a
+single producer code there is little need for a fancy factory of
+deserializers:
 
     // Create a fake object storage
     FakeObjectStorage storage = new FakeObjectStorage();
@@ -413,7 +412,8 @@ there is little need for a fancy factory of deserializers:
     // Create a server side request handler
     ServerRequestHandler srh = new StandardServerRequestHandler(storage, factory);
 
-Here you see the definition of the `srh` object that was used in the 
+Here you see the definition of the `srh` object that was used in the
+`InVMInterProcessConnector` in the client side code.
 
 
 ### Complete JUnit client side test 
@@ -448,7 +448,7 @@ Here you see the definition of the `srh` object that was used in the
         // instead use the RabbitMessageProducer connector
         connector = new InVMInterProcessConnector(srh);
         // Configure the actual 'sender' object. It requires a
-        // unique 6-character long project code to identify the
+        // unique 6-character long producer code to identify the
         // sender of data (see HelloWorld tutorial for a description
         // of the format); which connector to use to send
         // the data; and of course which serializer to use
@@ -472,42 +472,39 @@ Here you see the definition of the `srh` object that was used in the
     
 
 
-Stage 2: A distributed test environment
+Level 1: A simple distributed test environment
 ==================
 
 In this stage we start using the real RabbitMQ implementations for the
 `ChannelConnector`, and use a backend implementation, in a distributed
 test environment.
 
-You will find the associated (manual) test code in
-`karibu-tutorial/test/cs/ecosense/helloworld/stage2`. The two main programs are
-`Producer` and `Consumer` and these are run through ant targets `prod`
-and `cons` respectively.
+For "historical reasons", you will find the associated (manual) test
+code in `karibu-tutorial/test/cs/ecosense/helloworld/stage2`. The two
+main programs are `Producer` and `Consumer` and these are run by the
+ant targets `prod` and `cons` respectively.
  
 You need to have a RabbitMQ server running for the tests to succeed
 (you may use your development machine to act as both producer, consumer and
 rabbit mq server).
 
 If you want to avoid the hazzle of installing RabbitMQ and Erlang, you
-can use Baerbak's "Tembo" machine if you are inside the CS
-firewall. Currently, it has IP 10.11.108.61 - if it has changed,
-please try to inspect the mq.ip property in the Ant build file which
-is probably updated. Open your web browser on port 55672 or 15672 on
-that IP and log in using 'guest'/'guest' to go to the RabbitMQ
-Dashboard. Here you can monitor messages flowing in and out of the
-Rabbit. 
+may download a Ubuntu Server 12.04 LTS with RabbitMQ installed as a
+VMWare image at
+(http://users-cs.au.dk/baerbak/c/vm/Duma-RSA-RabbitMQ.zip). Once
+started in e.g. VMWare Player (which is free of charge) you will have
+a full RabbitMQ running with the web dashboard enabled. You can access
+the webboard on (IP-of-RabbitMQ):15672 with username 'guest' and pwd
+'guest'. The virtual machine is one I use in my teaching and has
+username 'rsa' and password 'csau'.
 
-* Before doing so, consult Henrik Bærbak, as the machine has to be
-clear of other experiments for your use*.
+You have to provide the IP of your RabbitMQ machine to the producer
+and consumer programs. Assuming your RabbitMQ machine (or virtual
+machine) has IP=xx.xx.xx.xx, you have to tell the producer and
+consumer programs through the Ant `mq.ip` property, like
 
-Alternatively, Henrik Bærbak has a set of VWWare virtual machines
-that you can experiment with.
-
-The ant targets point to this machine. If you run the rabbit MQ server
-on some other machine, you have to tell Ant through the `mq.ip` property:
-
-    ant -Dmq.ip=my.machine.ip prod
-    ant -Dmq.ip=my.machine.ip cons
+    ant -Dmq.ip=xx.xx.xx.xx cons
+    ant -Dmq.ip=xx.xx.xx.xx prod
     
 Please note that running the producer and consumer will have lasting
 side effects on the RabbitMQ server (similar to real production!).
@@ -518,9 +515,12 @@ be 'durable'. Once a consumer has been run once, the RabbitMQ server
 will remember that the queue is durable until the server is either
 reinstalled or you manually remove the queue using the dashboard.
 
-### Client configuration using RabbitMQ
+For more information on RabbitMQ, consult resources like [RabbitMQ].
 
-The setup is of course similar to Stage 1 explained above; the only
+Step 1. Client configuration using RabbitMQ
+-----------
+
+The setup is of course similar to Level 0 explained above; the only
 change is the implementations to use. Basically it is just the
 `connector` which is replaced by its `RabbitMessageProducer`
 implementation. The code below is from the `Producer` application.
@@ -541,19 +541,21 @@ implementation. The code below is from the `Producer` application.
     crh = new StandardClientRequestHandler<ExampleDomainClass>(ExampleCodes.EXAMPLE_PRODUCER_CODE,  
         connector, new ExampleSerializer()); 
 
-The only difference is that the constructor of RabbitMessageProducer
-may throw an IOException; and that you have to configure the Rabbit
-Exchange using `RabbitExchangeConfiguration`. The
-`ExampleExchangeConfiguration` uses default parameters for the rabbit
-regarding username, password, port, and exchange configurations.
+The only difference to the Level 0 testing example from the previous
+sections is that the constructor of RabbitMessageProducer may throw an
+IOException; and that you have to configure the Rabbit Exchange using
+`RabbitExchangeConfiguration`. The `ExampleExchangeConfiguration` uses
+default parameters for the rabbit regarding username, password, port,
+and exchange configurations.
 
-### Backend configuration using RabbitMQ
+Step 2. Backend configuration using RabbitMQ
+------------
 
-Again, the backend configuration is very similar to Stage 1. From the
+Again, the backend configuration is very similar to Level 0. From the
 `Consumer`application:
 
     // As storage, we use a null storage that simply outputs to the shell 
-    Storage database; 
+    ProcessingStrategy database; 
     database = new ExampleShellOutputNullStorage(); 
        
     // No fancy factory for deserializers, we know the single one 
@@ -570,13 +572,16 @@ Again, the backend configuration is very similar to Stage 1. From the
         return returnvalue; 
       } 
     }; 
- 
-    // Create the server side request handler, injecting the 
-    // two delegates that configures it. 
-    ServerRequestHandler messageHandler =  
-        new StandardServerRequestHandler(database, factory); 
 
-However, one additional step is necessary, as we have to start a
+In this setup, we have still not connected a real MongoDB database
+server, to keep the learning curve shallow. So, we configure a
+`ExampleShellOutputNullStorage` storage as `ProcessingStrategy`. This
+is not really a database, it just prints any stored object to the
+console so we can visually inspect that there is indeed coming data
+through.
+   
+
+One crucial, additional step is necessary, as we have to start a
 receiver thread which can feed received messages into the
 ServerRequestHandler. This is expressed by the class
 `MessageReceiverEndpoint` and interface `PollingConsumer` (again
@@ -592,16 +597,26 @@ and in addition a queue configuration `RabbitQueueConfiguration`.
     RabbitExchangeConfiguration rec =  
         new ExampleExchangeConfiguration(rabbitMQServerName); 
     RabbitQueueConfiguration rqc =  
-        new StandardStorageQueueConfiguration(); 
+        new ExampleStorageQueueConfiguration(); 
+    
+    // No need for any statistics collection so we just
+    // use a 'null object' handler
+    StatisticHandler statisticsHandler = new NullStatisticsHandler();
  
     // Configure and create the MessageReceiverEndpoint, 
     // using a RabbitMQ as polling consumer 
     PollingConsumer pollingConsumer = 
-        new RabbitMQPollingConsumer( rec, rqc); 
+        new RabbitMQPollingConsumer( rec, rqc ); 
     // .... and configure it and spawn the thread 
-    MessageReceiverEndpoint receiverEndpoint =  
-        new MessageReceiverEndpoint(pollingConsumer, messageHandler); 
-     
+    MessageReceiverEndpoint receiverEndpoint;
+    receiverEndpoint = new MessageReceiverEndpointFactory.Builder().
+        pollingConsumer(pollingConsumer).
+        processingStrategy(database).
+        deserializerFactory(factory).
+        logger(log).
+        statisticsHandler(statisticsHandler).
+        build();
+        
     // Finally, spawn the thread ... 
     Thread receiverThread = new Thread( receiverEndpoint, "ReceiverThread" ); 
     System.out.println("Start receiving payloads. Hit Ctrl-C to terminate..."); 
@@ -609,45 +624,31 @@ and in addition a queue configuration `RabbitQueueConfiguration`.
     receiverThread.start(); 
     receiverThread.join(); // delay main thread until receiver endpoint terminates. 
 
-Stage 3: Pre-Production environment
+The `MessageReceiverEndpoint` is highly configurable in order to
+inject all kinds of *saboteur* instances [Mezaros] that allow
+automatic testing of failover code in Karibu. Therefore a Builder
+pattern [Bloch] (from "Effective Java", not the classic Gamma et
+al. pattern) is used to configure it.
+
+Step 3. Adding a real MongoDB database
+---------
+
+Pending...
+
+
+Level 2: Pre-Production environment
 ============
 
-CS has a publicly available RabbitMQ server, ecosensemqtest01.cs.au.dk,
-that can be used for pre-production end-2-end testing.
+Pending...
 
-In this setup, your serializers for the backend MUST have been created
-as a versioned ivy module and uploaded to the Ecosense Artifactory
-server on twiga.cs.au.dk.
+(Describe setup of clustered RabbitMQ and replica set MongoDB).
 
-Next the storage daemons must be updated with the serializers. This
-entails 1) stopping the daemon(s) 2) updating the ivy spec to include your
-new module with deserializers 3) resolving and next restarting the daemon.
-
-Henrik Bærbak should be consulted.
-
-The pre-production environment should be run a couple of days and
-resulting data in the MongoDB analyzed to verify that no defects
-are present before going to the last stage...
-
-Stage 4: Operations in the production environment
+Level 3: Operations in the production environment
 =============
 
-Henrik Bærbak *must* be involved in this process.
+Pending...
 
-You must be assigned your own project password for access to
-the operations RabbitMQ cluster.
-
-Notes
-======
-
-The Rabbit setup
------
-
-Exchange: ecosense-exchange, durable, exchange-type=topic
-  make messages persistent
-  
-Queue: 
-
+(Discuss security settings and encrypted connections.)
 
     
 Literature
@@ -656,11 +657,19 @@ Literature
 [Christensen et al.] ["The 3+1 Approach to Software Architecture Description Using UML"](http://cs.au.dk/~baerbak/c/atisa/notes/ad-3p1model.pdf)
 
 
-[POSA] "Patterns of Software Architecture Volume 4", Addison-Wesley 20??
+[POSA] "Patterns of Software Architecture Volume 4: A Pattern Language for Distributed Computing", Addison-Wesley 2007
 
-[RabbitMQ] "RabbitMQ in Action", Wiley 20??
+[RabbitMQ] Videla, Williams: "RabbitMQ in Action: Distributed Messaging for Everyone", Wiley 2012
+
+
+[Meszaros] Gerard Meszaros: "xUnit Test Patterns:
+Refactoring Test Code", Addison Wesley, 2007
+
+[Bloch] Joshua Bloch: "Effective Java, 2nd Edition", Pearson Education, 2008
     
-Written by: *Henrik Baerbak Christensen, CS at Aarhus University*
+
+This tutorial is written by: *Henrik Baerbak Christensen, CS at Aarhus
+University*
     
 Any comments welcome at `hbc at cs dot au dot dk`.
     

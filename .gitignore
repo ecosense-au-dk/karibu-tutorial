@@ -3,3 +3,4 @@
 TEST-*
 .classpath
 .project
+*.bak
