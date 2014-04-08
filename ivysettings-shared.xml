@@ -1,7 +1,7 @@
 <ivysettings>
-  <!-- Ecosense local team repository -->
+  <!-- The repository with Karibu modules at CS, Aarhus University -->
   <property name="ivy.shared.default.root"             
-	    value="http://twiga.cs.au.dk:8081/artifactory/libs-release-local" 
+	    value="http://twiga.cs.au.dk:8081/artifactory/libs-release-karibu" 
 	    override="false"/>
   <property name="ivy.shared.default.ivy.pattern"      
 	    value="[organisation]/[module]/[revision]/[type]s/[artifact].[ext]"
