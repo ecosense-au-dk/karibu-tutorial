@@ -3,25 +3,22 @@ Karibu Tutorial
 
 Version 4 / April 2014.
 
-This document summarizes the programming process involved in developing the
-client side software, and the backend plug-in, to allow clients
-to send data to the EcoSense backend for storage. It is based upon
-the developed framework called *Karibu*. (Karibu is Swahili for "welcome").
+This document summarizes the programming process involved in
+developing the client side software, and the backend configuration
+objects, to allow clients to send data to server side storage. It is
+based upon the developed framework called *Karibu*. (Karibu is Swahili
+for "welcome").
 
 
 *NOTE*: The Karibu system is stable but the current tutorial is still
 in development.
 
-**Henrik Baerbak Christensen, Aarhus University**
+**Henrik Bærbak Christensen, Aarhus University**
 
 Overview of the process
 ----
 
-Below I will describe a *staged testing process* which strives to
-emphasize agile software development **fast development of reliable
-software** . The staging involves several stages:
-
-0. Make your core client side and backend side software work in a
+Below I will describe side and backend side software work in a
 *single node environment* (validates your code in a non-distributed
 environment.) Karibu is designed to allow you to build the entire
 client side user interface and domain logic in this environment thus
@@ -89,9 +86,9 @@ Download and Tool chain
 
 To compile and execute, you need at least the following tools in
 minimum versions: *Java JDK 1.7*, *Apache Ant 1.8* and *Apache Ivy
-2.3* for dependency management. You also need network access to
-download the two Karibu modules (producer and consumer) as well as
-modules that Karibu depends upon. Please review the ivy.xml file.
+2.3*. You also need network access to download the two Karibu modules
+(producer and consumer) as well as modules that Karibu depends
+upon. Please review the ivy.xml file.
 
 The source code at GitHub will become available as soon as our
 TechTrans administration allows us.
@@ -112,7 +109,7 @@ successful uploading data to the backtier:
 
 Below the three process steps are examplified on a very simple "Hello
 World" data model. Please refer to the JUnit example code in
-`karibu-tutorial/test/cs/ecosense/helloworld/stage1/TestRoundtrip.java`
+`karibu-tutorial/test/cs/helloworld/stage1/TestRoundtrip.java`
 which contains all the code shown below.
 
 The JUnit test cases are executed (along with other test cases) by
@@ -293,7 +290,7 @@ In Karibu the producer code is exactly 8 characters (UTF-8) that
 uniquely must identify the producer as well as what version of the
 data is sent.
 
-The format used in EcoSense is defined as 
+The format used in the EcoSense project is defined as 
 
     // Karibu uses a 8 character (UTF-8) code to 
     // identify the producer of data, called 
@@ -480,7 +477,7 @@ In this stage we start using the real RabbitMQ implementations for the
 test environment.
 
 For "historical reasons", you will find the associated (manual) test
-code in `karibu-tutorial/test/cs/ecosense/helloworld/stage2`. The two
+code in `karibu-tutorial/test/cs/helloworld/stage2`. The two
 main programs are `Producer` and `Consumer` and these are run by the
 ant targets `prod` and `cons` respectively.
  
@@ -668,7 +665,7 @@ Refactoring Test Code", Addison Wesley, 2007
 [Bloch] Joshua Bloch: "Effective Java, 2nd Edition", Pearson Education, 2008
     
 
-This tutorial is written by: *Henrik Baerbak Christensen, CS at Aarhus
+This tutorial is written by: *Henrik Bærbak Christensen, CS at Aarhus
 University*
     
 Any comments welcome at `hbc at cs dot au dot dk`.
