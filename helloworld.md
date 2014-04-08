@@ -5,9 +5,10 @@ Version 4 / April 2014.
 
 This document summarizes the programming process involved in
 developing the client side software, and the backend configuration
-objects, to allow clients to send data to server side storage. It is
-based upon the developed framework called *Karibu*. (Karibu is Swahili
-for "welcome").
+objects, to allow clients to send data from a Karibu client over
+RabbitMQ and the Karibu daemons to MongoDB storage. It demonstrates
+the features of the framework *Karibu*. (Karibu is Swahili for
+"welcome").
 
 
 *NOTE*: The Karibu system is stable but the current tutorial is still
@@ -90,9 +91,7 @@ minimum versions: *Java JDK 1.7*, *Apache Ant 1.8* and *Apache Ivy
 (producer and consumer) as well as modules that Karibu depends
 upon. Please review the ivy.xml file.
 
-The source code at GitHub will become available as soon as our
-TechTrans administration allows us.
-
+The source code will become available at GitHub at a later stage. 
 
 Level 0: Developing in the single-node environment
 ==================================
