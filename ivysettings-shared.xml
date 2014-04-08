@@ -10,7 +10,6 @@
 	    value="[organisation]/[module]/[revision]/[type]s/[artifact].[ext]"
 	    override="false"/>
 
-  <credentials realm="Artifactory Realm" host="twiga.cs.au.dk"/>
   <resolvers>
     <url name="shared">
       <ivy pattern="${ivy.shared.default.root}/${ivy.shared.default.ivy.pattern}" />

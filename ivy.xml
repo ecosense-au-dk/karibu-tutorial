@@ -20,8 +20,6 @@
   </configurations>
   
   <dependencies>
-    <dependency org="karibu" name="karibu-producer" 
-		rev="2.0.0"/>
     <dependency org="karibu" name="karibu-consumer" 
 		rev="2.0.0"/>
     
