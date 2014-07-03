@@ -18,7 +18,7 @@ package cs.karibu.helloworld.testdoubles;
 
 import java.util.Date;
 
-import cs.karibu.backend.StatisticHandler;
+import dk.au.cs.karibu.backend.StatisticHandler;
 
 /** Null object statistics handler - doing nothing.
  * 

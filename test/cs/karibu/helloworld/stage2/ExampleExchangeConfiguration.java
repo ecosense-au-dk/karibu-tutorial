@@ -18,7 +18,7 @@ package cs.karibu.helloworld.stage2;
  
 import com.rabbitmq.client.Address; 
 
-import cs.karibu.producer.rabbitmq.*;
+import dk.au.cs.karibu.producer.rabbitmq.*;
  
 /** Example configuration object for RabbitMQ exchange. 
  * Actually, it is a pretty "they way it should be" configuration 

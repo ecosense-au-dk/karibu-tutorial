@@ -25,10 +25,12 @@ import org.junit.*;
 
 import com.mongodb.BasicDBObject; 
 
-import cs.karibu.backend.*;
-import cs.karibu.backend.standard.StandardServerRequestHandler;
+import dk.au.cs.karibu.serialization.*;
+import dk.au.cs.karibu.producer.*;
+import dk.au.cs.karibu.backend.*;
+
+import dk.au.cs.karibu.backend.standard.StandardServerRequestHandler;
 import cs.karibu.helloworld.testdoubles.*;
-import cs.karibu.producer.*;
  
 /** JUnit learning test, a Hello World example of 
  * using the Karibu framework for defining a producer  

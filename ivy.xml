@@ -20,12 +20,12 @@
   </configurations>
   
   <dependencies>
-    <dependency org="karibu" name="karibu-consumer" 
+    <dependency org="dkaucs.karibu" name="karibu-consumer" 
 		rev="2.0.0"/>
     
     <dependency org="junit" name="junit" rev="4.11" />
     
-    <dependency org="org.slf4j" name="slf4j-simple" rev="1.7.5" />
+    <dependency org="org.slf4j" name="slf4j-simple" rev="1.7.7" />
     
   </dependencies>
 </ivy-module>

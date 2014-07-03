@@ -1,19 +1,9 @@
 <ivysettings>
   <!-- The repository with Karibu modules at CS, Aarhus University -->
-  <property name="ivy.shared.default.root"             
-	    value="http://twiga.cs.au.dk:8081/artifactory/libs-release-karibu" 
-	    override="false"/>
-  <property name="ivy.shared.default.ivy.pattern"      
-	    value="[organisation]/[module]/[revision]/[type]s/[artifact].[ext]"
-	    override="false"/>
-  <property name="ivy.shared.default.artifact.pattern" 
-	    value="[organisation]/[module]/[revision]/[type]s/[artifact].[ext]"
-	    override="false"/>
-
   <resolvers>
-    <url name="shared">
-      <ivy pattern="${ivy.shared.default.root}/${ivy.shared.default.ivy.pattern}" />
-      <artifact pattern="${ivy.shared.default.root}/${ivy.shared.default.artifact.pattern}" />
-    </url>
+    <ibiblio name="shared" 
+             m2compatible="true" 
+             root="http://twiga.cs.au.dk:8081/artifactory/libs-release-karibu" 
+             />
   </resolvers>
 </ivysettings>

@@ -18,8 +18,9 @@ package cs.karibu.helloworld.stage2;
  
 import java.io.IOException; 
 
-import cs.karibu.producer.*;
-import cs.karibu.producer.rabbitmq.*;
+import dk.au.cs.karibu.serialization.*;
+import dk.au.cs.karibu.producer.*;
+import dk.au.cs.karibu.producer.rabbitmq.*;
  
 /** Manual test case - produce Hello World data to 
  * be consumed by the 'Consumer' application. 

@@ -21,7 +21,7 @@ import java.util.StringTokenizer;
 
 import com.mongodb.BasicDBObject; 
 
-import cs.karibu.backend.Deserializer;
+import dk.au.cs.karibu.serialization.Deserializer;
  
  
 /** Example of a deserializer. 

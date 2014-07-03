@@ -631,6 +631,8 @@ Step 3. Adding a real MongoDB database
 
 Pending...
 
+(Describe using the real daemon that is configured using property files).
+
 
 Level 2: Pre-Production environment
 ============

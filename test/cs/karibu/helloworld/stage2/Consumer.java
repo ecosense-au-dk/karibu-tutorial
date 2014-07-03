@@ -18,10 +18,12 @@ package cs.karibu.helloworld.stage2;
  
 import org.slf4j.*; 
 
-import cs.karibu.backend.*;
-import cs.karibu.backend.rabbitmq.*;
+import dk.au.cs.karibu.serialization.*;
+import dk.au.cs.karibu.backend.*;
+import dk.au.cs.karibu.producer.rabbitmq.*;
+import dk.au.cs.karibu.backend.rabbitmq.*;
+
 import cs.karibu.helloworld.testdoubles.NullStatisticsHandler;
-import cs.karibu.producer.rabbitmq.RabbitExchangeConfiguration;
  
 /** Manual test case - Consume Hello World data being 
  * produced by the 'Producer' application. 

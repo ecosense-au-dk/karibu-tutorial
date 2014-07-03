@@ -1,6 +1,6 @@
 package cs.karibu.helloworld.stage2;
 
-import cs.karibu.backend.rabbitmq.RabbitQueueConfiguration;
+import dk.au.cs.karibu.backend.rabbitmq.RabbitQueueConfiguration;
 
 /** For the sake of the tutorial the storage queue
  * configuration is programmatically coded. For normal

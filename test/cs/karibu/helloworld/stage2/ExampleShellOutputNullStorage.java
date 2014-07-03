@@ -18,7 +18,7 @@ package cs.karibu.helloworld.stage2;
  
 import com.mongodb.BasicDBObject; 
 
-import cs.karibu.backend.ProcessingStrategy;
+import dk.au.cs.karibu.backend.ProcessingStrategy;
  
  
 /** Final processing that outputs BSON object on the console 

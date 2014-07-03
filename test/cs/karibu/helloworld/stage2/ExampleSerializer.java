@@ -16,7 +16,7 @@
  
 package cs.karibu.helloworld.stage2; 
 
-import cs.karibu.producer.Serializer;
+import dk.au.cs.karibu.serialization.Serializer;
  
 /** Example of a serializer that converts the domain class to the 
  * on-the-wire format 
