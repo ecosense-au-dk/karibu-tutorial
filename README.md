@@ -8,5 +8,5 @@ Getting Started
 
 *Getting Karibu pending*
 
-Please read the Hallo World tutorial: [Getting Started](helloworld.md)
+Please read the Hello World tutorial: [Getting Started](helloworld.md)
 
