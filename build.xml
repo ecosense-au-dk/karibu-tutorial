@@ -12,6 +12,8 @@
   <property name="build.dir" value="build" />
   <property name="src.dir" value="src" />  
   <property name="test.dir" value="test" />
+  <property name="resource.dir" value="setting"/>
+
 
   <!-- paths used for compilation and run  -->
   <path id="lib.path.id">
@@ -88,6 +90,14 @@ Karibu Tutorial
     </javac>
   </target>
 
+  <!-- setting tasks for the quick start -->
+  <target name="copy-resource" depends="prepare">
+    <copy file="${resource.dir}/log4j.properties" todir="${build.dir}"/>
+  </target>
+
+  <target name="build-all" depends="build-test,copy-resource"/>
+
+
   <!-- Stage 1 -->
   <target name="test" depends="build-test"
 	  description="--> Execute the stage 1 test cases">
@@ -123,13 +133,35 @@ Karibu Tutorial
   <!-- Quick start -->
   <property name="pf" value="config"/>
   <property name="maxprsec" value="1"/>
+  <!-- For real production you have to set this to the IP/DNS of the
+       machine which runs the daemon. -->
+  <property name="rmiserver" value="localhost"/>
   
-  <target name="load" depends="build-test"
+  <target name="load" depends="build-all"
 	  description="---> Quick start - the load generator">
     <java classpathref="run.path.id" 
 	  classname="cs.karibu.quickstart.GenerateLoad">
       <arg value="${pf}"/>
       <arg value="${maxprsec}"/>
+    </java>
+  </target>
+
+  <target name="daemon" depends="build-all"
+	  description="---> Quick start - Run the daemon">
+    <java classpathref="run.path.id" 
+	  classname="dk.au.cs.karibu.main.StorageDaemon">
+      <arg value="mongo"/>
+      <arg value="${pf}"/>
+      <sysproperty key="java.security.policy"
+           path="setting/security.policy"/>
+      <sysproperty key="com.sun.management.jmxremote.port"
+           value="4672"/>
+      <sysproperty key="com.sun.management.jmxremote.authenticate"
+           value="false"/>
+      <sysproperty key="com.sun.management.jmxremote.ssl"
+           value="false"/>
+      <sysproperty key="java.rmi.server.hostname"
+           value="${rmiserver}"/>
     </java>
   </target>
 
