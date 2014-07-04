@@ -26,6 +26,9 @@
     <dependency org="junit" name="junit" rev="4.11" />
     
     <dependency org="org.slf4j" name="slf4j-simple" rev="1.7.7" />
+
+	<dependency org="org.codehaus.jackson" name="jackson-core-asl" rev="1.9.13"/>
+	<dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.13"/>
     
   </dependencies>
 </ivy-module>

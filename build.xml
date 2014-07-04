@@ -45,6 +45,16 @@ Karibu Tutorial
     	
       To use machine with IP x.x.x.x as RabbitMQ, use
     	   -Dmq.ip=x.x.x.x for the above two targets.
+
+  Quick Start:
+
+    Make sure you have the Duma-MQ and Duma-DB nodes running, AND
+    that you have edited the property files (exchange.properties and
+    mongo.properties) in the resource folder correctly before running.
+
+    daemon:      Start the Karibu daemon.
+    load:        Start generating client side data.
+     
     </echo>
   </target>
   
@@ -109,6 +119,21 @@ Karibu Tutorial
       <arg value="${mq.ip}"/>
     </java>
   </target>
+
+  <!-- Quick start -->
+  <property name="pf" value="config"/>
+  <property name="maxprsec" value="1"/>
+  
+  <target name="load" depends="build-test"
+	  description="---> Quick start - the load generator">
+    <java classpathref="run.path.id" 
+	  classname="cs.karibu.quickstart.GenerateLoad">
+      <arg value="${pf}"/>
+      <arg value="${maxprsec}"/>
+    </java>
+  </target>
+
+
 
 </project>
 
