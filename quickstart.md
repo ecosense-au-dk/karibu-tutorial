@@ -26,9 +26,9 @@ already setup correctly.
 
 The virtual machines are in VMWare format. They have been tested to
 work with VMWare's virtual machine monitor VMWare Player which is free
-for personal use. You can find and download from VMWare's website.
+for personal use. You can find and download it from VMWare's website.
 
-Once installed, download the two VMs:
+Once installed, download the two VMs (about 400MB each):
 
   * [Duma MQ](http://users-cs.au.dk/baerbak/c/vm/Duma-RSA-RabbitMQ.zip)  
 
@@ -120,6 +120,12 @@ To validate, please check the MQ dashboard.
 
 ![MQ upload](resource/mq-upload.gif)
 
+Here you see that the publish and deliver rates are around 1 message
+per second as expected. You can also click on the fanes
+for`*Connections*, *Exchanges*, and *Queues*, to see the different
+connections and objects that the daemon has defined.
+
+
 To validate that data is indeed stored in the DB, find your Duma-DB
 virtual machine, and start the Mongo shell, and execute the following
 commands:
@@ -129,6 +135,17 @@ commands:
     db.EXMRE001.count()
 
 ![Mongo upload](resource/mongo-upload.gif)
+
+Here you see that 77 documents have been stored in the EXMRE001
+collection in the karibu database. That data ends in the karibu
+database was defined in the `mongo.properties` configuration; and the
+collection is defined by the *producer code* as explained in the
+[Hello World](resource/helloworld.md) tutorial.
+
+Code Walkthrough
+---
+
+Pending...
 
 Experiments
 ---
