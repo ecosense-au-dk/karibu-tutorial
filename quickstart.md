@@ -140,7 +140,7 @@ Here you see that 77 documents have been stored in the EXMRE001
 collection in the karibu database. That data ends in the karibu
 database was defined in the `mongo.properties` configuration; and the
 collection is defined by the *producer code* as explained in the
-[Hello World](resource/helloworld.md) tutorial.
+[Hello World](helloworld.md) tutorial.
 
 Code Walkthrough
 ---
