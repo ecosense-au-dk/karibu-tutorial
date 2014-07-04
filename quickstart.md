@@ -88,7 +88,7 @@ machine.
 
 OK, everything should be set. Let us start the daemon.
 
-   ant daemon
+    ant daemon
 
 and you should see something along the lines of (on Win7 some
 connections take a while to start).
@@ -111,7 +111,7 @@ Start data collection
 To simulate data collection from a device, you should start the load
 generator from another shell.
 
-    ant load
+     ant load
 
 This will start uploading data every second to the MQ which will then
 be fetched by the daemons and stored in the DB.
