@@ -107,3 +107,8 @@ correctly in the property files.
 Start data collection
 ---
 
+To simulate data collection from a device, you should start the load
+generator from another shell.
+
+    ant load
+
