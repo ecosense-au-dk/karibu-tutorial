@@ -98,11 +98,12 @@ connections take a while to start).
 (if you wonder why the logging information is going to the shell, it
 is because the tutorial's ivy.xml file uses the simple SLF4J
 logger. If you change the binding to the Log4J logger, logging should
-go to `karibu.log` instead.)
+go to `karibu.log` instead, which is what we do in production.)
 
 If this step fail, carefully review that you have set the IP addresses
 correctly in the property files.
 
+To stop the daemon, you just hit Ctrl-C.
 
 Start data collection
 ---
@@ -111,4 +112,29 @@ To simulate data collection from a device, you should start the load
 generator from another shell.
 
     ant load
+
+This will start uploading data every second to the MQ which will then
+be fetched by the daemons and stored in the DB.
+
+To validate, please check the MQ dashboard.
+
+![MQ upload](resource/mq-upload.gif)
+
+To validate that data is indeed stored in the DB, find your Duma-DB
+virtual machine, and start the Mongo shell, and execute the following
+commands:
+
+    use karibu
+    show collections
+    db.EXMRE001.count()
+
+![Mongo upload](resource/mongo-upload.gif)
+
+Experiments
+---
+
+You can try to keep the load going but shut down the daemon.
+
+You can try to stop the MongoDB for a short while (`sudo service
+mongodb stop`) before reenabling it (`sudo service mongodb start`).
 
