@@ -20,13 +20,15 @@ This tutorial requires three nodes to be running:
 
   3. a node that runs the MongoDB database
 
-To avoid the hazzle of setting up the latter two nodes, I recommend
+To avoid the hassle of setting up the latter two nodes, I recommend
 downloading two Ubuntu Server 12.04 LTS virtual machines that are
 already setup correctly.
 
 The virtual machines are in VMWare format. They have been tested to
-work with VMWare's virtual machine monitor VMWare Player which is free
-for personal use. You can find and download it from VMWare's website.
+work with [VMWare Player](http://www.vmware.com/go/downloadplayer/)
+for Windows and Linux, which is free for personal use, or
+[VMWare Fusion](http://www.vmware.com/products/fusion/) for OS X, which
+has a free trial.
 
 Once installed, download the two VMs (about 400MB each):
 
@@ -34,8 +36,8 @@ Once installed, download the two VMs (about 400MB each):
 
   * [Duma DB](http://users-cs.au.dk/baerbak/c/vm/Duma-RSA-MongoDB.zip)
 
-Unzip them in some suitable place. Start you VMWare player, select
-*Open a Virtual Machine* and select the VM. 
+Unzip them in some suitable place. Start your VMWare player, select
+*Open a Virtual Machine* and select each of the VMs.
 
 ![VMWare Player](resource/vm-start.gif)
 
@@ -46,7 +48,7 @@ username 'rsa' and password 'csau'.
 
 Next request to execute it. If asked, select that you have copied
 it. Other questions are usually regarding peripherical devices (skip
-them) or VMWare tools (skip that as well). 
+them), or VMWare tools (skip that as well). 
 
 Log onto the machine, and note its IP (which we will call *mqip* in
 the rest of the tutorial.)
