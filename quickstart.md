@@ -75,10 +75,17 @@ payload into a MongoDB document, and stores it in the MongoDB.
 Therefore the daemon must of course be configured to talk with both
 RabbitMQ and MongoDB. It does so using property files.
 
-In the root of this tutorial you will find the `config` folder. Open
-your favorite editor on the `exchange.properties` file and enter your
-*mqip* as value to the key `serverAddressList`. The rest of the
-properties should do just well.
+In the root of this tutorial you will find the `config` folder. This
+folder has three default property files. Copy each one to a new file
+without the `default` prefix:
+
+  * `exchange.properties.default` -> `exchange.properties`
+  * `mongo.properties.default` -> `mongo.properties`
+  * `queue.properties.default` -> `queue.properties`
+
+Open `exchange.properties.default` in your favorite editor and
+enter your *mqip* as value to the key `serverAddressList`. The rest
+of the properties should not need to be changed.
 
 ![Exchange properties](resource/exchange.gif)
 
@@ -87,6 +94,8 @@ Do the same with the `mongo.properties` file - change the
 machine.
 
 ![Mongo properties](resource/mongo.gif)
+
+The `queue.properties` file does not need to be edited for this tutorial.
 
 OK, everything should be set. Let us start the daemon.
 
