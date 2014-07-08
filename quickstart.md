@@ -107,11 +107,11 @@ connections take a while to start).
 ![Daemon start](resource/daemon-start.gif)
 
 (if you wonder why the logging information is going to the shell, it
-is because the tutorial's ivy.xml file uses the simple SLF4J
+is because the tutorial's `ivy.xml` file uses the simple SLF4J
 logger. If you change the binding to the Log4J logger, logging should
 go to `karibu.log` instead, which is what we do in production.)
 
-If this step fail, carefully review that you have set the IP addresses
+If this step fails, carefully review that you have set the IP addresses
 correctly in the property files.
 
 To stop the daemon, you just hit Ctrl-C.
@@ -132,14 +132,17 @@ To validate, please check the MQ dashboard.
 ![MQ upload](resource/mq-upload.gif)
 
 Here you see that the publish and deliver rates are around 1 message
-per second as expected. You can also click on the fanes
-for`*Connections*, *Exchanges*, and *Queues*, to see the different
+per second as expected. You can also click on the tabs
+for *Connections*, *Exchanges*, and *Queues*, to see the different
 connections and objects that the daemon has defined.
 
 
 To validate that data is indeed stored in the DB, find your Duma-DB
-virtual machine, and start the Mongo shell, and execute the following
-commands:
+virtual machine, and start the Mongo shell:
+
+    mongo
+
+and then execute the following commands:
 
     use karibu
     show collections
@@ -149,8 +152,8 @@ commands:
 
 Here you see that 77 documents have been stored in the EXMRE001
 collection in the karibu database. That data ends in the karibu
-database was defined in the `mongo.properties` configuration; and the
-collection is defined by the *producer code* as explained in the
+database as was defined in the `mongo.properties` configuration; and
+the collection is defined by the *producer code* as explained in the
 [Hello World](helloworld.md) tutorial.
 
 Code Walkthrough
@@ -161,8 +164,11 @@ Pending...
 Experiments
 ---
 
-You can try to keep the load going but shut down the daemon.
+  * Try shutting down the daemon process, but keep the load process going.
+  What do you see happen in the RabbitMQ admin interface? What happens when
+  you restart the daemon?
 
-You can try to stop the MongoDB for a short while (`sudo service
-mongodb stop`) before reenabling it (`sudo service mongodb start`).
-
+  * Try stopping the MongoDB for a short while
+  (`sudo service mongodb stop` on the DB VM) before reenabling it
+  (`sudo service mongodb start`). What do you see in the daemon log output,
+  and the RabbitMQ admin interface?
