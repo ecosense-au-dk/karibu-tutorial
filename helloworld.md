@@ -620,31 +620,50 @@ and in addition a queue configuration `RabbitQueueConfiguration`.
 The `MessageReceiverEndpoint` is highly configurable in order to
 inject all kinds of *saboteur* instances [Mezaros] that allow
 automatic testing of failover code in Karibu. Therefore a Builder
-pattern [Bloch] (from "Effective Java", not the classic Gamma et
+pattern (from "Effective Java" by Bloch, not the classic Gamma et
 al. pattern) is used to configure it.
 
-Step 3. Adding a real MongoDB database
----------
-
-Pending...
-
-(Describe using the real daemon that is configured using property files).
-
+*Note*: Karibu provides a standard implementation of the server side
+daemon which is configured by reading property files instead of
+programmatically. However, here we tweak the daemon rather
+dramatically (output to a non-mongo database, no statistics
+collections) which is only possible by configuring the
+MessageReceiverEndpoint by code.
 
 Stage 3: Pre-Production environment
 ============
 
-Pending...
+Now you are ready to 
 
-(Describe setup of clustered RabbitMQ and replica set MongoDB).
+  1) add a real MongoDB database.
 
-Stage 4: Operations in the production environment
+  2) configure the Karibu daemon using property files instead of
+  writing code (no need for a special `Consumer` program).
+
+  3) deploy your Deserializers in the special folder that allows the
+  daemons to fetch them automatically.
+
+All of these steps are described in the [Quick Start](quickstart.md).
+
+
+Stage 4: Production environment
 =============
 
-Pending...
+To run a full production enviroment you have to consider
 
-(Discuss security settings and encrypted connections.)
+  1) Using SSL encryption between client and RabbitMQ
 
+  2) Use clustered RabbitMQ instances to get high availability
+
+  3) Use credentials on the RabbitMQ instances
+
+  4) Use replica-sets of MongoDBs to avoid data loss
+
+  5) Use credentials on the MongoDB replica-set
+
+  6) To shield your daemons by proper access rights
+
+Further detail pending...
     
 Literature
 ==========

@@ -54,6 +54,7 @@ and the code and configuration options of Karibu in order to develop
 the binding to your particular types of data.
 
 The [Quick Start](quickstart.md) tutorial focuses on setting up a
-simulated environment that contains the core aspects of a full
-production systems and relies on a provided, fixed, data type.
+fully distributed environment that contains the core aspects of a full
+production systems but demonstrates it on a provided, fixed, data
+type.
 

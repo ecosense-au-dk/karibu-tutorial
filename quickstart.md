@@ -157,9 +157,75 @@ the collection is defined by the *producer code* as explained in the
 [Hello World](helloworld.md) tutorial.
 
 Code Walkthrough
+===
+
+This tutorial contains a single Java class `GenerateLoad` to simulate
+a client that uploads data (in `test/cs/karibu/quickstart`), and just
+uses the default Karibu daemon which is part of the Karibu-core
+modules.
+
+The explanations below assumes you have read the [Hello
+World](helloworld.md) tutorial.
+
+Producer code
 ---
 
-Pending...
+The configration of the client side objects uses the default
+implementations for Karibu production use, namely those that read
+property files. Karibu comes with a PropertyReader which is designed
+to fail fast.
+
+
+    // Read in the property files
+    PropertyReader rr = new PropertyReader(resourceFolderRoot);
+    Properties exchangeProperties = rr.readPropertiesFailFast("exchange");
+
+    // Configure the connector to the MQ
+    ChannelConnector connector = null; 
+    RabbitExchangeConfiguration rabbitExchangeConfig =
+        new StandardRabbitExchangeConfiguration(exchangeProperties);
+      
+    connector = new RabbitChannelConnector( rabbitExchangeConfig ); 
+    
+    // Configure the client request handler
+    ClientRequestHandler<ExampleMeasurement> readingHandler;
+    StandardJSONSerializer<ExampleMeasurement> serializer;
+    serializer = new StandardJSONSerializer<ExampleMeasurement>();
+
+    readingHandler = new StandardClientRequestHandler<ExampleMeasurement>(DomainConstants.PRODUCER_CODE_EXAMPLE_MEASUREMENT,  
+        connector, serializer ); 
+
+
+Daemon execution
+---
+
+The ant script executes the daemon
+
+
+    <target name="daemon" depends="build-all"ge
+  	  description="---> Quick start - Run the daemon">
+    <java classpathref="run.path.id" 
+	  classname="dk.au.cs.karibu.main.StorageDaemon">
+      <arg value="mongo"/>
+      <arg value="${pf}"/>
+      <sysproperty key="java.security.policy"
+           path="setting/security.policy"/>
+      <sysproperty key="com.sun.management.jmxremote.port"
+           value="4672"/>
+      <sysproperty key="com.sun.management.jmxremote.authenticate"
+           value="false"/>
+      <sysproperty key="com.sun.management.jmxremote.ssl"
+           value="false"/>
+      <sysproperty key="java.rmi.server.hostname"
+           value="${rmiserver}"/>
+    </java>
+    </target>
+
+Most of the configuration is through the second argument, the folder
+which contains the property files. However, the standard daemon is
+also JMX enabled, so be sure to set the `rmiserver` property of the
+local machine (localhost does not work!) after which you can connect
+to the instance using jconsole.
 
 Experiments
 ---
