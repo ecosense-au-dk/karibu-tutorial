@@ -5,3 +5,4 @@ TEST-*
 .project
 *.bak
 *~
+config/*.properties

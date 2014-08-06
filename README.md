@@ -20,7 +20,11 @@ Getting Started
 
 To get started on the tutorials, you will need Java 1.7+, Ant 1.8+,
 Ivy 2.4+, and to simulate the distributed environment using the
-provided virtual machines you will need VMWare Player or similar.
+provided virtual machines you will need a way to run VMWare virtual
+machines, such as
+[VMWare Player](http://www.vmware.com/go/downloadplayer/) for Windows
+and Linux, or
+[VMWare Fusion](http://www.vmware.com/products/fusion/) for OS X.
 
 
 Learning to use Karibu
