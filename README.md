@@ -26,15 +26,34 @@ machines, such as
 and Linux, or
 [VMWare Fusion](http://www.vmware.com/products/fusion/) for OS X.
 
+Also, Ivy will need to download modules so you will have to be on-line
+to make the tutorials work.
+
 
 Learning to use Karibu
 ---
 
-The [Hello World](helloworld.md) tutorial takes you through the steps
-of adapting Karibu for your particular domain and type of data
-collection.
+Using Karibu for your particular data collection needs requires two
+important steps
+
+  1) Configuring Karibu to handle your particular type(s) of
+  data. This involves writing implementations of the `Serializer` and
+  `Deserializer` interfaces and testing that they work correctly
+  together with Karibu. Tutorial: [Hello World](helloworld.md).
+
+  2) Setting up the distributed Karibu environment which includes
+  RabbitMQ, MongoDB, Karibu daemon(s), and the clients. Tutorial:
+  [Quick Start](quickstart.md).
+
+As Karibu is designed with a lot of flexibility, these two tasks can
+actually be made in any order.
+
+
+The [Hello World](helloworld.md) tutorial focus on the architecture
+and the code and configuration options of Karibu in order to develop
+the binding to your particular types of data.
 
 The [Quick Start](quickstart.md) tutorial focuses on setting up a
 simulated environment that contains the core aspects of a full
-production systems.
+production systems and relies on a provided, fixed, data type.
 

@@ -93,7 +93,7 @@ upon. Please review the ivy.xml file.
 
 The source code will become available at GitHub at a later stage. 
 
-Level 0: Developing in the single-node environment
+Stage 1: Developing in the single-node environment
 ==================================
 
 **This is the recommended mode for developing the GUI and application
@@ -239,7 +239,7 @@ In this section we avoid the RabbitMQ connector, and instead use
 Karibu's test implementations that allow a full upload to be
 *simulated* in a single process in-memory setup. This is designed to
 allow speedy development of the client side without having to setup a
-distributed environment. The Level 1 section later in the document
+distributed environment. The Stage 2 section later in the document
 will demonstrate Karibu's RabbitMQ implementation meant for production
 code.
 
@@ -468,7 +468,7 @@ Here you see the definition of the `srh` object that was used in the
     
 
 
-Level 1: A simple distributed test environment
+Stage 2: A simple distributed test environment
 ==================
 
 In this stage we start using the real RabbitMQ implementations for the
@@ -516,7 +516,7 @@ For more information on RabbitMQ, consult resources like [RabbitMQ].
 Step 1. Client configuration using RabbitMQ
 -----------
 
-The setup is of course similar to Level 0 explained above; the only
+The setup is of course similar to stage 1 explained above; the only
 change is the implementations to use. Basically it is just the
 `connector` which is replaced by its `RabbitMessageProducer`
 implementation. The code below is from the `Producer` application.
@@ -537,7 +537,7 @@ implementation. The code below is from the `Producer` application.
     crh = new StandardClientRequestHandler<ExampleDomainClass>(ExampleCodes.EXAMPLE_PRODUCER_CODE,  
         connector, new ExampleSerializer()); 
 
-The only difference to the Level 0 testing example from the previous
+The only difference to the stage 1 testing example from the previous
 sections is that the constructor of RabbitMessageProducer may throw an
 IOException; and that you have to configure the Rabbit Exchange using
 `RabbitExchangeConfiguration`. The `ExampleExchangeConfiguration` uses
@@ -547,7 +547,7 @@ and exchange configurations.
 Step 2. Backend configuration using RabbitMQ
 ------------
 
-Again, the backend configuration is very similar to Level 0. From the
+Again, the backend configuration is very similar to stage 1. From the
 `Consumer`application:
 
     // As storage, we use a null storage that simply outputs to the shell 
@@ -634,14 +634,14 @@ Pending...
 (Describe using the real daemon that is configured using property files).
 
 
-Level 2: Pre-Production environment
+Stage 3: Pre-Production environment
 ============
 
 Pending...
 
 (Describe setup of clustered RabbitMQ and replica set MongoDB).
 
-Level 3: Operations in the production environment
+Stage 4: Operations in the production environment
 =============
 
 Pending...

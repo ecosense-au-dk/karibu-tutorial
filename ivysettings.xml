@@ -1,9 +1,54 @@
 <ivysettings>
-  <!-- Karibu settings, overruling the default 'shared' settings -->
+  <!-- Much of the settings file here is a copy from the default one in
+       the Ivy release, however, the local Karibu repository
+       are used as the shared ones -->
+  
   <settings defaultResolver="default"/>
-  <include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
-  <include file="ivysettings-shared.xml"/>
-  <include url="${ivy.default.settings.dir}/ivysettings-local.xml"/>
-  <include url="${ivy.default.settings.dir}/ivysettings-main-chain.xml"/>
-  <include url="${ivy.default.settings.dir}/ivysettings-default-chain.xml"/>
+  
+  <!-- Maven central -->
+  <resolvers>
+    <ibiblio name="public" m2compatible="true"/>
+  </resolvers>
+
+
+  <!-- The public repository with Karibu modules at CS, Aarhus University -->
+  <resolvers>
+    <ibiblio name="karibu" 
+             m2compatible="true" 
+             root="http://twiga.cs.au.dk:8081/artifactory/libs-release-karibu" 
+             />
+  </resolvers>
+
+  <!-- The local repo -->
+  <property name="ivy.local.default.root"             
+            value="${ivy.default.ivy.user.dir}/local" override="false"/>
+  <property name="ivy.local.default.ivy.pattern"      
+            value="[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" 
+            override="false"/>
+  <property name="ivy.local.default.artifact.pattern" 
+            value="[organisation]/[module]/[revision]/[type]s/[artifact].[ext]" 
+            override="false"/>
+  
+  <resolvers>
+    <filesystem name="local">
+      <ivy pattern="${ivy.local.default.root}/${ivy.local.default.ivy.pattern}" />
+      <artifact pattern="${ivy.local.default.root}/${ivy.local.default.artifact.pattern}" />
+    </filesystem>
+  </resolvers>
+
+  <!-- from ivysettings-main-chain -->
+  <resolvers>
+    <chain name="main" dual="true">
+      <resolver ref="karibu"/>
+      <resolver ref="public"/>
+    </chain>
+  </resolvers>
+
+  <!-- from ivysettings-default-chain -->
+  <resolvers>
+    <chain name="default" returnFirst="true" checkmodified="true">
+      <resolver ref="local"/>
+      <resolver ref="main"/>
+    </chain>
+  </resolvers>
 </ivysettings>

@@ -1,9 +1,0 @@
-<ivysettings>
-  <!-- The repository with Karibu modules at CS, Aarhus University -->
-  <resolvers>
-    <ibiblio name="shared" 
-             m2compatible="true" 
-             root="http://twiga.cs.au.dk:8081/artifactory/libs-release-karibu" 
-             />
-  </resolvers>
-</ivysettings>
