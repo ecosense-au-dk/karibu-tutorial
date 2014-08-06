@@ -1,7 +1,7 @@
 Karibu Quick Start
 ============
 
-Version 1 / July 2014
+Version 2 / August 2014
 
 In this tutorial you will setup a distributed system having a client,
 a messaging system, a daemon, and a database. Then you will start

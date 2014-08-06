@@ -1,7 +1,7 @@
 Karibu Tutorial
 =======
 
-Version 4 / April 2014.
+Version 5 / August 2014.
 
 This document summarizes the programming process involved in
 developing the client side software, and the backend configuration
