@@ -19,26 +19,18 @@ in development.
 Overview of the process
 ----
 
-Below I will describe side and backend side software work in a
-*single node environment* (validates your code in a non-distributed
-environment.) Karibu is designed to allow you to build the entire
-client side user interface and domain logic in this environment thus
-speeding up development significantly.
+Karibu is designed with flexibility in mind which allows more thorough testing
+as well as a staged approach to adapting it to your particular needs.
 
-1. Make your configuration code work in a *distributed test
-environment* (validates most of the RabbitMQ and Mongo parameters and
-configurations as well as tests your client in a real distributed
-environment but without fear of interferring with the full operational
-system.)
+By *staged* is meant that you can gradually expand your code base from
+first testing it in a *single node environment* (non-distributed),
+next test it in a simple distributed environment, and gradually move
+on to a fully production environment.
 
-2. Deploy your backend code on the *pre-production CS system*. This
-allows realistic testing is a safe environment that never-the-less
-is similar to the operational environment.
 
-3. Final deployment in the operational system. 
-
-Only level 0 and 1 are described currently. More information regarding
-level 2 and 3 will be provided later, or contact the author.
+In this tutorial Stage 1 and 2 are described. More information
+regarding the later stages will be provided later, or contact the
+author.
 
 
 
@@ -113,9 +105,6 @@ which contains all the code shown below.
 
 The JUnit test cases are executed (along with other test cases) by
 issuing 'ant test' in the `karibu-tutorial` folder.
-
-Note: For "historical reasons" the level 0 testing is located in a subfolder
-named "stage1" in the test folder.
 
 
 Step 1: Serialization and deserialization step
@@ -324,7 +313,7 @@ calls is provided by Karibu. From the test code:
     // be defined for clients 
     ChannelConnector connector; 
     // Here we use an in-memory connector, a normal client shall 
-    // instead use the RabbitMessageProducer connector 
+    // instead use the RabbitChannelConnector 
     connector = new InVMInterProcessConnector(srh); 
  
 (The `srh` object is the request handler on the server side, and
@@ -475,14 +464,14 @@ In this stage we start using the real RabbitMQ implementations for the
 `ChannelConnector`, and use a backend implementation, in a distributed
 test environment.
 
-For "historical reasons", you will find the associated (manual) test
-code in `karibu-tutorial/test/cs/helloworld/stage2`. The two
-main programs are `Producer` and `Consumer` and these are run by the
-ant targets `prod` and `cons` respectively.
+You will find the associated (manual) test code in
+`karibu-tutorial/test/cs/helloworld/stage2`. The two main programs are
+`Producer` and `Consumer` and these are run by the ant targets `prod`
+and `cons` respectively.
  
 You need to have a RabbitMQ server running for the tests to succeed
-(you may use your development machine to act as both producer, consumer and
-rabbit mq server).
+and install the web dashboard plugin (you may use your development
+machine to act as both producer, consumer and rabbit mq server).
 
 If you want to avoid the hazzle of installing RabbitMQ and Erlang, you
 may download a Ubuntu Server 12.04 LTS with RabbitMQ installed as a
@@ -492,7 +481,8 @@ started in e.g. VMWare Player (which is free of charge) you will have
 a full RabbitMQ running with the web dashboard enabled. You can access
 the webboard on (IP-of-RabbitMQ):15672 with username 'guest' and pwd
 'guest'. The virtual machine is one I use in my teaching and has
-username 'rsa' and password 'csau'.
+username 'rsa' and password 'csau'. For more detailed information,
+check the [Quick Start](quickstart.md).
 
 You have to provide the IP of your RabbitMQ machine to the producer
 and consumer programs. Assuming your RabbitMQ machine (or virtual
@@ -518,7 +508,7 @@ Step 1. Client configuration using RabbitMQ
 
 The setup is of course similar to stage 1 explained above; the only
 change is the implementations to use. Basically it is just the
-`connector` which is replaced by its `RabbitMessageProducer`
+`connector` which is replaced by its `RabbitChannelConnector`
 implementation. The code below is from the `Producer` application.
 
     ChannelConnector connector = null; 
@@ -538,11 +528,18 @@ implementation. The code below is from the `Producer` application.
         connector, new ExampleSerializer()); 
 
 The only difference to the stage 1 testing example from the previous
-sections is that the constructor of RabbitMessageProducer may throw an
+sections is that the constructor of RabbitChannelConnector may throw an
 IOException; and that you have to configure the Rabbit Exchange using
 `RabbitExchangeConfiguration`. The `ExampleExchangeConfiguration` uses
 default parameters for the rabbit regarding username, password, port,
 and exchange configurations.
+
+*Note*: The configuration of RabbitMQ as shown here uses a coding
+ approach for clarity and simplicity (i.e. the
+ `ExampleExchangeConfiguration` class hand codes every parameter). For
+ production uses, Karibu provides implementations to read property
+ files instead. Please review the code in `GenerateLoad` from the
+ [Quick Start](quickstart.md).
 
 Step 2. Backend configuration using RabbitMQ
 ------------

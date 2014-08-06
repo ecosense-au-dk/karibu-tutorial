@@ -1,7 +1,7 @@
 <!-- 
      Karibu Tutorial.
 
-     Read the tutorial (hello world.md) for explanation.
+     Read the tutorials for explanation.
 
      Author: Henrik Baerbak Christensen, CS at Aarhus University
 -->
@@ -28,10 +28,11 @@
     <echo>
 Karibu Tutorial
 
-  *** Please read the 'helloworld' tutorial first ***
+  *** Please read the 'readme.md' first ***
 
   Targets 
     clean:     Removes all bytecode.
+    resolve:   Make Ivy download all dependencies.
 
   Hello World Tutorial:
    Stage 1:

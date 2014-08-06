@@ -179,7 +179,7 @@ public class TestRoundtrip {
     // be defined for clients 
     ChannelConnector connector; 
     // Here we use an in-memory connector, a normal client shall 
-    // instead use the RabbitMessageProducer connector 
+    // instead use the RabbitChannelConnector 
     connector = new InVMInterProcessConnector(srh); 
     // Configure the actual 'sender' object. It requires a 
     // unique producer code to identify the 
