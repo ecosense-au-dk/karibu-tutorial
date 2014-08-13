@@ -10,25 +10,17 @@
     </description>
   </info>
   
-  <configurations>
-    <conf name="default" visibility="public" description="runtime dependencies and master artifact can be used with this conf" extends="runtime,master"/>
-    <conf name="master" visibility="public" description="contains only the artifact published by this module itself, with no transitive dependencies"/>
-    <conf name="compile" visibility="public" description="this is the default scope, used if none is specified. Compile dependencies are available in all classpaths."/>
-    <conf name="runtime" visibility="public" description="this scope indicates that the dependency is not required for compilation, but is for execution. It is in the runtime and test classpaths, but not the compile classpath." extends="compile"/>
-    <conf name="sources" visibility="public" description="this configuration contains the source artifact of this module, if any."/>
-    <conf name="javadoc" visibility="public" description="this configuration contains the javadoc artifact of this module, if any."/>
-  </configurations>
-  
   <dependencies>
-    <dependency org="dkaucs.karibu" name="karibu-consumer" 
-		rev="2.0.0"/>
+    <dependency org="dkaucs.karibu" name="karibu-consumer" rev="2.0.2"/>
     
     <dependency org="junit" name="junit" rev="4.11" />
     
     <dependency org="org.slf4j" name="slf4j-simple" rev="1.7.7" />
-
-    <dependency org="org.codehaus.jackson" name="jackson-core-asl" rev="1.9.13"/>
-    <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" rev="1.9.13"/>
+    
+    <dependency org="org.codehaus.jackson" name="jackson-core-asl" 
+		rev="1.9.13"/>
+    <dependency org="org.codehaus.jackson" name="jackson-mapper-asl" 
+		rev="1.9.13"/>
     
   </dependencies>
 </ivy-module>

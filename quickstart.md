@@ -36,7 +36,7 @@ Once installed, download the two VMs (about 400MB each):
 
   * [Duma DB](http://users-cs.au.dk/baerbak/c/vm/Duma-RSA-MongoDB.zip)
 
-(Duma is the Swahili word for "cheetah")
+(Duma is the Swahili word for "cheetah".)
 
 Unzip them in some suitable place. Start your VMWare player, select
 *Open a Virtual Machine* and select each of the VMs.

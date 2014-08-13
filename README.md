@@ -3,6 +3,8 @@ Karibu
 
 *Welcoming any data, in any format, in any version, at any time...*
 
+By *Henrik Bærbak Christensen, Department of Computer Science, University of Aarhus*.
+
 Karibu is a high quality data collection framework aiming at data
 integrity, flexibility, and scalability. It is developed for
 environmental data collection from smartphone apps as well as
