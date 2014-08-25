@@ -638,22 +638,59 @@ Now you are ready to
   1) add a real MongoDB database.
 
   2) configure the Karibu daemon using property files instead of
-  writing code (no need for a special `Consumer` program).
+  writing code (there is no need for a special `Consumer` program, as
+  you can use the standard daemon in the Karibu-core modules).
 
   3) deploy your Deserializers in the special folder that allows the
   daemons to fetch them automatically.
 
-All of these steps are described in the [Quick Start](quickstart.md).
+All of these steps are described in the [Quick Start](quickstart.md), except
+for the details of step 3, namely how to deploy the Deserializers.
+
+Deserializer development and deployment
+----
+
+The standard Karibu daemon will dynamically load your developed
+`Deserializer` implementations using this algorithm:
+
+  1) The first time the Karibu daemon fetch a message from the MQ(s)
+  with a producer code "XXXYYZZZ" it will try to classload a class
+  implementing the `Deserializer` interface named
+  "dk.au.cs.karibu.deserializer.XXXYYZZZ.class". 
+
+  2) If successful, it will deserialize the message using that
+  deserializer and store it in the MongoDB database named by the
+  `databaseName` property in the read `mongo.properties` file, and in
+  this database's collection named "XXXYYZZ".
+
+  3) In case no class could be loaded, the raw, binary, message will
+  be stored in a collection named "DEADLETTERXXXYYZZ".
+
+  4) In case a deserializer was found but an error occured during
+  deserialization, the raw, binary, message will be stored in a
+  collection named "WRONGFORMATXXXYYZZ".
+
+
+This means that you can add new data types at run-time while the
+daemon is running by a) deploying the properly named deserializer
+class file in the proper folder in the daemon's classpath b) start
+sending messages using this format and this producer code.
 
 
 Stage 4: Production environment
 =============
 
-To run a full production enviroment you have to consider
+To run a full production enviroment you have to consider (contents pending.)
 
-  1) Using SSL encryption between client and RabbitMQ
+  1) Using SSL encryption between client and RabbitMQ. This entails a)
+  setting up SSL for RabbitMQ, please refer to their tutorials, and b)
+  setting the `sslConnection=true` in the `exchange.properties`
+  property file.
 
-  2) Use clustered RabbitMQ instances to get high availability
+  2) Use clustered RabbitMQ instances to get high availability. Update
+  the `serverAddressList` in `exchange.properties` with a comma
+  separated list of server addresses (with optional port numbers, like
+  `mq01.mydomain.org:6666,mq02.mydomain.org:6877`). 
 
   3) Use credentials on the RabbitMQ instances
 
