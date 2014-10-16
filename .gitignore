@@ -6,3 +6,4 @@ TEST-*
 *.bak
 *~
 config/*.properties
+*.db
