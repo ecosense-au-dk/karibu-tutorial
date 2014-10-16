@@ -11,7 +11,7 @@
   </info>
   
   <dependencies>
-    <dependency org="dkaucs.karibu" name="karibu-consumer" rev="2.0.2"/>
+    <dependency org="dkaucs.karibu" name="karibu-consumer" rev="2.0.3"/>
     
     <dependency org="junit" name="junit" rev="4.11" />
     
