@@ -58,6 +58,22 @@ Karibu Tutorial
     daemon:      Start the Karibu daemon.
     load:        Start generating client side data.
      
+== Performance testing ==
+  
+  NB! Does not make sense outside CS@AU
+
+  Procedure:
+    Start daemons on PundaMQ1 and PundaMQ2
+
+      ant -Dpf=config-performance-test daemon
+
+   Then start the load
+    
+     ant -Dpf=config-performance-test load
+   
+
+  For configuration information, see the README in config-performance-test
+
     </echo>
   </target>
   
